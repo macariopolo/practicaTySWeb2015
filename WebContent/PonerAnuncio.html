@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<form enctype="multipart/form-data">
+	<h1>Datos del anunciante</h1>
+	<p>
+		<label for="email">Email:</label><input type="email" id="email" size="40" maxlength="65" readonly="readonly">
+	</p>
+	<p>
+		<label for="fechaDeAlta">Fecha de alta:</label><input type="text" id="fechaDeAlta" size="30" maxlength="30" readonly="readonly">
+	</p>
+	<p>
+		<label for="nombre">Nombre:</label><input type="text" id="nombre" size="30" maxlength="30" readonly="readonly">
+	</p>
+	<p>
+		<label for="apellido1">Apellido 1:</label><input type="text" id="apellido1" size="30" maxlength="30" readonly="readonly">
+	</p>
+	<p>
+		<label for="apellido2">Apellido 2:</label><input type="text" id="apellido2" size="30" maxlength="30" readonly="readonly">
+	</p>
+	<p>
+		<label for="telefono">Teléfono:</label><input type="text" id="telefono" size="30" maxlength="30" readonly="readonly">
+	</p>
+	<p>
+		<label for="idUbicacion">Id ubicación:</label><input type="text" id="idUbicacion" size="30" maxlength="30" readonly="readonly">
+	</p>
+</form>
+<form id="datosAnuncio">
+	<h2>Datos del anuncio</h2>
+	<p>
+		<label for="descripcion">Descripción:</label><br>
+		<textarea rows="10" cols="50" id="descripcion"></textarea>
+	</p>
+	<p>
+		<label for="categoria">Categoria:</label>
+		<select id="categoria">
+			<option></option>
+		</select>
+	</p>
+	<p>
+		<label for="foto">Foto:</label><input type="file" id="foto" name="foto" accept="image/*" multiple="multiple">
+	</p>
+	<button type="button" id="foto" onclick="subirFoto()">Subir</button>
+	<div id="progreso"></div>
+</form>
+
+<script src="scripts/gestionCuentas.js"></script>
+<script src="scripts/menuUsuario.js"></script>
+<script>
+getDatos();
+cargarCategorias();
+</script>

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+
+<p>
+	<label id="emailUser">Conectado como
+		<script>
+			document.getElementById("emailUser").innerHTML=sessionStorage.getItem("email");
+		</script>
+	</label> 
+</p>
+
+<button type="button" onclick="menuUsuario()">Mis opciones</button>
+<button type="button" onclick="logout()">Desconectar</button>
+
+<script src="scripts/gestionCuentas.js"></script>
+<script src="scripts/menuUsuario.js"></script>
