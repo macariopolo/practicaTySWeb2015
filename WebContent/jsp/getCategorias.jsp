@@ -6,7 +6,7 @@ JSONArray jsa=new JSONArray();
 
 Broker bd=Broker.get();
 String sql="Select id, nombre from Categorias where isnull(idPadre) order by nombre";
-PreparedStatement p=bd.getDBPrivilegiada().prepareStatement(sql);
+PreparedStatement p=bd.getDBSelector().prepareStatement(sql);
 ResultSet r=p.executeQuery();
 while (r.next()) {
 	JSONObject jso=new JSONObject();

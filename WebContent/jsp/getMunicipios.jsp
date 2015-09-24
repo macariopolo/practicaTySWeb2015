@@ -2,13 +2,14 @@
 <%@ page import="edu.uclm.esi.common.server.persistence.*, java.sql.*, org.json.*" %>
 
 <%
-String ca=request.getParameter("ca");
+String provincia=request.getParameter("provincia");
 JSONArray jsa=new JSONArray();
-if (ca!=null && ca.trim().length()>0) {
+
+if (provincia!=null && provincia.trim().length()>0) {
 	Broker bd=Broker.get();
-	String sql="Select id, nombre from Ubicaciones where tipo='Provincia' and idPadre=? order by nombre";
-	PreparedStatement p=bd.getDBPrivilegiada().prepareStatement(sql);
-	p.setInt(1, Integer.parseInt(ca));
+	String sql="Select id, nombre from Ubicaciones where tipo='Municipio' and idPadre=? order by nombre";
+	PreparedStatement p=bd.getDBSelector().prepareStatement(sql);
+	p.setInt(1, Integer.parseInt(provincia));
 	ResultSet r=p.executeQuery();
 	while (r.next()) {
 		JSONObject jso=new JSONObject();

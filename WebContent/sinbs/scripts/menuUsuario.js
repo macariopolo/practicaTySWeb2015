@@ -11,7 +11,7 @@ function menuUsuario() {
 function cargarCategorias() {
 	var selectCategorias=document.getElementById("categoria");
 	var request = new XMLHttpRequest();	
-	request.open("post", "getCategorias.jsp");
+	request.open("post", "../../getCategorias.jsp");
 	request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 	request.onreadystatechange=function() {
 		if (request.readyState==4 && request.status==200) {
@@ -27,6 +27,7 @@ function cargarCategorias() {
 	};
 	request.send();
 }
+
 
 function subirFoto() {
 	var request=new XMLHttpRequest();

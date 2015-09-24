@@ -1,0 +1,21 @@
+<div class="container">
+  <div class="jumbotron">
+    <h2>Opciones de usuario</h2> 
+	<ul>
+		<li id="miCuenta"><a>Mi cuenta</a></li>
+		<li id="ponerAnuncio"><a>Poner anuncio</a></li>
+	</ul>
+  </div>
+
+	<script>
+	$(document).ready(function() {
+		$("#miCuenta").click(function() {
+			$("#zonaPrincipal").load("MiCuenta.html");
+		}),
+		$("#ponerAnuncio").click(function() {
+			$("#zonaPrincipal").load("PonerAnuncio.html");
+		})
+	});
+	</script>
+
+</div>

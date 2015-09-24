@@ -12,7 +12,7 @@ import edu.uclm.esi.common.server.domain.User;
 public class DAOUser {
 	
 	public static void registrar(User user, String pwd) throws SQLException {
-		Connection bd=Broker.get().getDBPrivilegiada();
+		Connection bd=Broker.get().getDBInserter();
 		try {
 			String sql="{call insertarUsuario (?, ?, ?, ?, ?, ?, ?, ?)}";
 			CallableStatement cs=bd.prepareCall(sql);
@@ -42,7 +42,7 @@ public class DAOUser {
 	}
 	
 	public static void registrarConGoogle(String email) throws SQLException {
-		Connection bd=Broker.get().getDBPrivilegiada();
+		Connection bd=Broker.get().getDBInserter();
 		try {
 			String sql="{call insertarUsuarioGoogle (?, ?, ?, ?, ?)}";
 			CallableStatement cs=bd.prepareCall(sql);

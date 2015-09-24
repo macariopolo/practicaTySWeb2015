@@ -46,4 +46,10 @@ public class Manager {
 	public User findUserById(int id) {
 		return this.usersById.get(id);
 	}
+
+	public Anuncio insertarAnuncio(User user, String descripcion, int idCategoria) throws SQLException {
+		Anuncio a=new Anuncio(user, descripcion, idCategoria);
+		Anuncio.insert(a);
+		return a;
+	}
 }

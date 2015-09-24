@@ -2,10 +2,16 @@
 <%@ page import="edu.uclm.esi.common.server.persistence.*, java.sql.*, org.json.*" %>
 
 <%
-Broker bd=Broker.get();
-String sql="Select id, nombre from Ubicaciones where tipo='Comunidad autónoma' order by nombre";
-PreparedStatement p=bd.getDBPrivilegiada().prepareStatement(sql);
 JSONArray jsa=new JSONArray();
+
+Broker bd=Broker.get();
+
+String sCategoria=request.getParameter("categoria");
+
+String sql="Select id, nombre from Categorias where idPadre=? order by nombre";
+PreparedStatement p=bd.getDBSelector().prepareStatement(sql);
+p.setInt(1, Integer.parseInt(sCategoria));
+
 ResultSet r=p.executeQuery();
 while (r.next()) {
 	JSONObject jso=new JSONObject();

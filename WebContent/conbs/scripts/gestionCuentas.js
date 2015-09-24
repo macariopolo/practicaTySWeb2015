@@ -1,8 +1,3 @@
-var iFrameRegistro=window.parent.document.getElementById("iFrameRegistro");
-
-if (iFrameRegistro==undefined || iFrameRegistro==null) {
-	iFrameRegistro=window.parent.document.getElementById("iFrameRegistro");
-}
 
 /***
  * COMPROBACIONES AL CARGAR LA PÁGINA PRINCIPAL
@@ -21,8 +16,7 @@ function comprobarRecarga() {
  */
 
 function registrarse() {
-	iFrameRegistro.src="FormRegistro.html";
-	iFrameRegistro.setAttribute("style", "display:block");
+	$("#cabeceraRegistro").load("FormRegistro.html");
 }
 
 function Usuario() {
@@ -51,6 +45,7 @@ function crearCuenta() {
 				alert("Ocurrió un error en tu registro: " + respuesta.mensaje);
 			} else {
 				alert("Bienvenid@, " + usuario.nombre + " " + usuario.apellido1 + " " + usuario.apellido2);
+				$("#cabeceraRegistro").load("FormLogin.html");
 			}
 		}
 	};
@@ -64,8 +59,7 @@ function crearCuenta() {
  */
 
 function entrar() {
-	iFrameRegistro.src="FormLogin.html";
-	iFrameRegistro.setAttribute("style", "display:block");
+	$("#cabeceraRegistro").load("FormLogin.html");
 }
 
 function Credenciales() {
@@ -93,7 +87,7 @@ function login() {
 			} else {
 				sessionStorage.setItem("idUsuario", respuesta.idUser);
 				sessionStorage.setItem("email", credenciales.email);
-				window.parent.document.getElementById("iFrameRegistro").src="FormLogueado.html";
+				$("#cabeceraRegistro").load("FormLogueado.html");
 			}
 		}
 	};
@@ -102,8 +96,7 @@ function login() {
 }
 
 function cargarInformacionDeCuenta() {
-	iFrameRegistro.src="FormLogueado.html";
-	iFrameRegistro.setAttribute("style", "display:block");
+	$("#cabeceraRegistro").load("FormLogueado.html");
 }
 
 /***
@@ -123,11 +116,9 @@ function logout() {
 			respuesta=JSON.parse(respuesta.resultado);
 			if (respuesta.tipo=="error") {
 				alert("Ocurrió un error al desconectar: " + respuesta.mensaje);
-			} else {
-				sessionStorage.removeItem("idUsuario");
-				sessionStorage.removeItem("email");
-				window.parent.document.getElementById("iFrameRegistro").setAttribute("style", "display:none");
-			}
+			} 
+			sessionStorage.clear();
+			$("#cabeceraRegistro").load("FormDatosPersonales.html");
 		}
 	};
 	var pars="command=" + JSON.stringify(comando);
@@ -152,13 +143,20 @@ function getDatos() {
 			if (respuesta.tipo=="error") {
 				alert("Ocurrió un error al desconectar: " + respuesta.mensaje);
 			} else {
-				document.getElementById("email").value=respuesta.email;
-				document.getElementById("nombre").value=respuesta.nombre;
-				document.getElementById("apellido1").value=respuesta.apellido1;
-				document.getElementById("apellido2").value=respuesta.apellido2;
-				document.getElementById("fechaDeAlta").value=respuesta.fechaDeAlta;
-				document.getElementById("telefono").value=respuesta.telefono;
-				document.getElementById("idUbicacion").value=respuesta.idUbicacion;
+				var email=document.getElementById("email")
+				var nombre=document.getElementById("nombre");
+				var apellido1=document.getElementById("apellido1");
+				var apellido2=document.getElementById("apellido2");
+				var fechaDeAlta=document.getElementById("fechaDeAlta");
+				var telefono=document.getElementById("telefono");
+				var idUbicacion=document.getElementById("idUbicacion");
+				if (email!=null) email.value=respuesta.email;
+				if (nombre!=null) nombre.innerHTML=respuesta.nombre;
+				if (apellido1!=null) apellido1.innerHTML=respuesta.apellido1;
+				if (apellido2!=null) apellido2.innerHTML=respuesta.apellido2;
+				if (fechaDeAlta!=null) fechaDeAlta.innerHTML=respuesta.fechaDeAlta;
+				if (telefono!=null) telefono.innerHTML=respuesta.telefono;
+				if (idUbicacion!=null) idUbicacion.innerHTML=respuesta.idUbicacion;
 			}
 		}
 	};

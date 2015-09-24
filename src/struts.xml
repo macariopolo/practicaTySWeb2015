@@ -5,6 +5,7 @@
 
 <struts>
 	<constant name="struts.multipart.maxSize" value="104857600" />
+	
 	<package name="common" namespace="/" extends="json-default">
 		<global-exception-mappings>
 		 	<exception-mapping exception="javax.mail.MessagingException" result="error" />
@@ -44,35 +45,34 @@
 		</action> 
 	</package>
 	
-	<package name="games" namespace="/" extends="json-default">
-		<action name="SubirFoto" class="edu.uclm.esi.tysweb2015.acciones.SubirFoto">
-			<interceptor-ref name="fileUpload"/>
-	    	<interceptor-ref name="basicStack"/>
+	<package name="anuncios" namespace="/" extends="json-default">
+		<action name="GuardarAnuncio" class="edu.uclm.esi.tysweb2015.acciones.GuardarAnuncio">
 			<result name="success" type="json"/>
 			<result name="input" type="json"/>
 			<result name="error" type="json"/>
 		</action>
+		
+		<action name="SubirFoto" class="edu.uclm.esi.tysweb2015.acciones.SubirFoto">
+			<result name="success" type="json"/>
+			<result name="input" type="json"/>
+			<result name="error" type="json"/>
+		</action>
+		
+		<action name="GetIdsDeFotos" class="edu.uclm.esi.tysweb2015.acciones.GetIdsDeFotos">
+			<result name="success" type="json"/>
+			<result name="input" type="json"/>
+			<result name="error" type="json"/>
+		</action>
+		
+		<action name="GetFoto" class="edu.uclm.esi.tysweb2015.acciones.GetFoto">
+			<result name="success" type="stream">
+			  <param name="contentType">${contentType}</param>
+			  <param name="inputName">contenido</param>
+			  <param name="bufferSize">1024</param>
+			</result>
+			<result name="input" type="json"/>
+			<result name="error" type="json"/>
+		</action>
 	</package>
-	<!-- <package name="games" namespace="/" extends="json-default">
-		<action name="GameList" class="com.maco.juegosEnGrupo.server.actions.GameList">
-			<result name="success" type="json"/>
-			<result name="error" type="json"/>
-		</action>
-		
-		<action name="JoinGame" class="com.maco.juegosEnGrupo.server.actions.JoinGame">
-			<result name="success" type="json"/>
-			<result name="error" type="json"/>
-		</action>
-		
-		<action name="GetBoard" class="com.maco.juegosEnGrupo.server.actions.GetBoard">
-			<result name="success" type="json"/>
-			<result name="error" type="json"/>
-		</action>
-		<action name="SendMovement" class="com.maco.juegosEnGrupo.server.actions.SendMovement">
-			<result name="success" type="json"/>
-			<result name="input" type="json"></result>
-			<result name="error" type="json"/>
-		</action>
-	</package> -->
 </struts>
 

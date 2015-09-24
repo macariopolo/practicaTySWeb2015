@@ -16,57 +16,40 @@ import org.json.JSONObject;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
+import edu.uclm.esi.common.server.domain.Anuncio;
+
 public class SubirFoto extends ActionSupport {
 	private static final long serialVersionUID = 1L;
 	private File upload;//The actual file
 	private String uploadContentType; //The content type of the file
-	private String uploadFileName; //The uploaded file name
-	private String fileCaption;//The caption of the file entered by user
 	private String tempFileName;
 	private Exception exception;
+	private int idFoto;
 
 	public String execute() {
 		try { 
-			HttpServletRequest request = ServletActionContext.getRequest();
-			Enumeration<String> parNames=request.getParameterNames();
-			String parName, parValue;
-			while (parNames.hasMoreElements()) {
-				parName=parNames.nextElement();
-				parValue=request.getParameter(parName);
-				System.out.println("<li>" + parName + " : " + parValue + "</li>");
-			}
 			String tmpFolder=System.getProperty("java.io.tmpdir");
 			int rnd = Math.abs(new Random().nextInt());
 			this.tempFileName = tmpFolder + rnd;
 			File theFile = new File(tempFileName);
 			FileUtils.copyFile(upload, theFile);
+			Anuncio anuncio=(Anuncio) ServletActionContext.getRequest().getSession().getAttribute("anuncio");
+			this.idFoto=anuncio.addFoto(theFile, this.uploadContentType);
 			return SUCCESS;
 		} catch (Exception e) {
 			this.exception=e;
 			return ERROR;
 		}
 	}
-
-	public void setFileCaption(String fileCaption) {
-		this.fileCaption = fileCaption;
-	}
-
+	
 	public void setFoto(File upload) {
 		this.upload = upload;
 	}
 
-	public void setUploadContentType(String uploadContentType) {
+	public void setFotoContentType(String uploadContentType) {
 		this.uploadContentType = uploadContentType;
 	}
 
-	public void setUploadFileName(String uploadFileName) {
-		this.uploadFileName = uploadFileName;
-	}
-
-	public void setTempFileName(String tempFileName) {
-		this.tempFileName = tempFileName;
-	}
-	
 	public String getResultado() {
 		JSONObject result=new JSONObject();
 		try {
@@ -75,7 +58,7 @@ public class SubirFoto extends ActionSupport {
 				result.put("mensaje", this.exception.toString());
 			} else {
 				result.put("tipo", "OK");
-				result.put("mensaje", "OK");
+				result.put("mensaje", this.idFoto);
 			}
 			return result.toString();
 		} catch (JSONException e) {

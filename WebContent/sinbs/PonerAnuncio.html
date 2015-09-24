@@ -24,7 +24,7 @@
 		<label for="idUbicacion">Id ubicación:</label><input type="text" id="idUbicacion" size="30" maxlength="30" readonly="readonly">
 	</p>
 </form>
-<form id="datosAnuncio">
+<form id="datosAnuncio" enctype="multipart/form-data">
 	<h2>Datos del anuncio</h2>
 	<p>
 		<label for="descripcion">Descripción:</label><br>
@@ -37,7 +37,7 @@
 		</select>
 	</p>
 	<p>
-		<label for="foto">Foto:</label><input type="file" id="foto" name="foto" accept="image/*" multiple="multiple">
+		<label for="foto">Foto:</label><input type="file" id="foto" name="foto" accept="image/*">
 	</p>
 	<button type="button" id="foto" onclick="subirFoto()">Subir</button>
 	<div id="progreso"></div>

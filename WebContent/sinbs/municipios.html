@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<form>
+		<p>
+			<label for="ccaa">Comunidad autónoma:</label>
+			<select id="ccaa" onchange="loadProvincias()">
+				<option></option>
+			</select>
+		</p>
+		<p>
+			<label for="provincias">Provincia:</label>
+			<select id="provincias" onchange="loadMunicipios()">
+			</select>
+		</p>
+		
+		<p>
+			<label for="municipios">Municipio:</label>
+			<select id="municipios">
+			</select>
+		</p>
+	</form>
+	
+	<script>
+	
+	/** Carga de comunidades autónomas **/
+	var selectCCAA=document.getElementById("ccaa");
+	var selectProvincias=document.getElementById("provincias");
+	var selectMunicipios=document.getElementById("municipios");
+	
+	var request = new XMLHttpRequest();	
+	request.open("post", "../../jsp/getCCAA.jsp");
+	request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	request.onreadystatechange=function() {
+		if (request.readyState==4 && request.status==200) {
+			var ccaa=JSON.parse(request.responseText);
+			for (var i=0; i<ccaa.length; i++) {
+				var ca=ccaa[i];
+				var optionCA=document.createElement("option");
+				optionCA.setAttribute("value", ca.id);
+				optionCA.innerHTML=ca.nombre;
+				selectCCAA.appendChild(optionCA);
+			}
+		}
+	};
+	request.send();
+	
+	/** Carga de provincias **/
+	function loadProvincias() {
+		request = new XMLHttpRequest();	
+		request.open("post", "../../jsp/getProvincias.jsp");
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.onreadystatechange=function() {
+			if (request.readyState==4 && request.status==200) {
+				selectProvincias.options.length=0;
+				selectProvincias.appendChild(document.createElement("option"));
+				var provincias=JSON.parse(request.responseText);
+				for (var i=0; i<provincias.length; i++) {
+					var provincia=provincias[i];
+					var optionProvincia=document.createElement("option");
+					optionProvincia.setAttribute("value", provincia.id);
+					optionProvincia.innerHTML=provincia.nombre;
+					selectProvincias.appendChild(optionProvincia);
+				}
+			}
+		};
+		var pars="ca=" + selectCCAA.value;
+		request.send(pars);
+	}
+	
+	/** Carga de municipios **/
+	function loadMunicipios() {
+		request = new XMLHttpRequest();	
+		request.open("post", "../../jsp/getMunicipios.jsp");
+		request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		request.onreadystatechange=function() {
+			if (request.readyState==4 && request.status==200) {
+				selectMunicipios.options.length=0;
+				var municipios=JSON.parse(request.responseText);
+				for (var i=0; i<municipios.length; i++) {
+					var municipio=municipios[i];
+					var optionMunicipio=document.createElement("option");
+					optionMunicipio.setAttribute("value", municipio.id);
+					optionMunicipio.innerHTML=municipio.nombre;
+					selectMunicipios.appendChild(optionMunicipio);
+				}
+			}
+		};
+		var pars="provincia=" + selectProvincias.value;
+		request.send(pars);
+	}
+	</script>
+
+</body>
+</html>

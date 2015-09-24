@@ -26,12 +26,16 @@ public class Broker {
 		return yo;
 	}
 	
-	public Connection getDBPrivilegiada() throws SQLException {
-		return DriverManager.getConnection(url, "root", "picasso11");
+	public Connection getDBSelector() throws SQLException {
+		return DriverManager.getConnection(url, "selectorTSW2015", "");
+	}
+	
+	public Connection getDBInserter() throws SQLException {
+		return DriverManager.getConnection(url, "inserterTyS2015", "inserterTyS2015");
 	}
 	
 	public Connection getDB(String email, String password) throws SQLException {
-		Connection db=getDBPrivilegiada();
+		Connection db=getDBSelector();
 		try {
 			String SQL="Select id from Usuarios where email=?";
 			PreparedStatement p=db.prepareStatement(SQL);
@@ -57,7 +61,7 @@ public class Broker {
 	}
 
 	public Connection getGoogleDB(String email) throws SQLException {
-		Connection db=getDBPrivilegiada();
+		Connection db=getDBSelector();
 		try {
 			String SQL="Select id from User where email=?";
 			PreparedStatement p=db.prepareStatement(SQL);

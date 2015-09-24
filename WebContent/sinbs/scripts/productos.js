@@ -10,22 +10,24 @@ cargarArbol();
 
 function cargarArbol() {
 	var request = new XMLHttpRequest();	
-	request.open("post", "getCategorias.jsp");
+	request.open("post", "../jsp/getCategorias.jsp");
 	request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 	request.onreadystatechange=function() {
-		if (request.readyState==4 && request.status==200) {
-			var categorias=JSON.parse(request.responseText);
-			for (var i=0; i<categorias.length; i++) {
-				var categoria=categorias[i];
-				var liCategoria=document.createElement("li");
-				var link=document.createElement("a");
-				link.setAttribute("id", "categoria" + categoria.id);
-				link.setAttribute("href", "javascript:cargarSubcategorias(" + categoria.id + ")");
-				link.innerHTML=categoria.nombre;
-				liCategoria.setAttribute("class", "categoria");
-				liCategoria.appendChild(link);
-				ulCategorias.appendChild(liCategoria);
-			}
+		if (request.readyState==4) {
+			if (request.status==200) {
+				var categorias=JSON.parse(request.responseText);
+				for (var i=0; i<categorias.length; i++) {
+					var categoria=categorias[i];
+					var liCategoria=document.createElement("li");
+					var link=document.createElement("a");
+					link.setAttribute("id", "categoria" + categoria.id);
+					link.setAttribute("href", "javascript:cargarSubcategorias(" + categoria.id + ")");
+					link.innerHTML=categoria.nombre;
+					liCategoria.setAttribute("class", "categoria");
+					liCategoria.appendChild(link);
+					ulCategorias.appendChild(liCategoria);
+				}
+			} else alert(request.status);
 		}
 	};
 	request.send();
@@ -35,7 +37,7 @@ function cargarSubcategorias(idCategoria) {
 	limpiarSubcategorias();
 	var categoriaPadre=document.getElementById("categoria" + idCategoria);
 	var request = new XMLHttpRequest();	
-	request.open("post", "getSubcategorias.jsp");
+	request.open("post", "../jsp/getSubcategorias.jsp");
 	request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 	request.onreadystatechange=function() {
 		if (request.readyState==4 && request.status==200) {
