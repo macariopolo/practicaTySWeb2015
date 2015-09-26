@@ -83,7 +83,7 @@ public class DAOAnuncio {
 
 	public static InputStream getContenido(Anuncio anuncio, int idFoto) throws SQLException {
 		InputStream result=null;
-		Connection bd=anuncio.getUser().getDB();
+		Connection bd=Broker.get().getDBSelector();
 		try {
 			String sql="select contenido from Fotos where idFoto=?";
 			PreparedStatement ps=bd.prepareStatement(sql);
@@ -117,4 +117,101 @@ public class DAOAnuncio {
 		}
 	}
 
+	public static int getNumeroDeAnuncios() throws SQLException {
+		int result=0;
+		Connection bd=Broker.get().getDBSelector();
+		try {
+			String sql="select count(*) from Anuncios";
+			PreparedStatement ps=bd.prepareStatement(sql);
+			ResultSet rs=ps.executeQuery();
+			if (rs.next()) {
+				result=rs.getInt(1);
+			}
+			return result;
+		}
+		catch (SQLException e) {
+			throw e;
+		}
+	}
+
+	public static void select(int idAnuncio, Anuncio anuncio) throws SQLException {
+		String sql="Select Anuncios.id, Anuncios.fechaDeAlta, descripcion, Categorias.nombre, Usuarios.email " + 
+			"from Anuncios inner join Categorias on Anuncios.idCategoria=Categorias.id " + 
+			"inner join Usuarios on Anuncios.idAnunciante=Usuarios.id where Anuncios.id=?";
+		Connection bd=Broker.get().getDBSelector();
+		PreparedStatement ps=bd.prepareStatement(sql);
+		ResultSet r=ps.executeQuery();
+		//r.relative(idAnuncio);
+		bd.close();
+	}
+	
+	public static Anuncio getAnuncioIEsimo(int n) throws SQLException {
+		String sql="Select Anuncios.id, Anuncios.fechaDeAlta, descripcion, Categorias.id, Categorias.nombre, Usuarios.id, Usuarios.email " + 
+				"from Anuncios inner join Categorias on Anuncios.idCategoria=Categorias.id " + 
+				"inner join Usuarios on Anuncios.idAnunciante=Usuarios.id";
+		Connection bd=Broker.get().getDBSelector();
+		PreparedStatement ps=bd.prepareStatement(sql);
+		ResultSet r=ps.executeQuery();
+		r.relative(n);
+		Anuncio result=new Anuncio();
+		result.setIdAnuncio(r.getInt(1));
+		result.setDescripcion(r.getString(3));
+		result.setIdCategoria(r.getInt(4));
+		result.setNombreCategoria(r.getString(5));
+		result.setEmailUsuario(r.getString(7));
+		bd.close();
+		return result;
+	}
+
+	public static int getNumeroDeFotos(Anuncio anuncio) throws SQLException {
+		int result=0;
+		Connection bd=Broker.get().getDBSelector();
+		try {
+			String sql="select count(*) from Fotos where idAnuncio=?";
+			PreparedStatement ps=bd.prepareStatement(sql);
+			ps.setInt(1, anuncio.getIdAnuncio());
+			ResultSet rs=ps.executeQuery();
+			if (rs.next()) {
+				result=rs.getInt(1);
+			}
+			return result;
+		}
+		catch (SQLException e) {
+			throw e;
+		}
+	}
+
+	public static InputStream getContenidoDePrimeraFoto(Anuncio anuncio) throws SQLException {
+		InputStream result=null;
+		Connection bd=Broker.get().getDBSelector();
+		try {
+			String sql="select contenido from Fotos limit 1";
+			PreparedStatement ps=bd.prepareStatement(sql);
+			ResultSet rs=ps.executeQuery();
+			if (rs.next()) {
+				result=rs.getBlob(1).getBinaryStream();
+			}
+			return result;
+		}
+		catch (SQLException e) {
+			throw e;
+		}
+	}
+
+	public static String getContentTypePrimeraFoto() throws SQLException {
+		String result=null;
+		Connection bd=Broker.get().getDBSelector();
+		try {
+			String sql="select contentType from Fotos limit 1";
+			PreparedStatement ps=bd.prepareStatement(sql);
+			ResultSet rs=ps.executeQuery();
+			if (rs.next()) {
+				result=rs.getString(1);
+			}
+			return result;
+		}
+		catch (SQLException e) {
+			throw e;
+		}
+	}
 }

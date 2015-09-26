@@ -1,21 +1,17 @@
-<%@ page language="java" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/plain" pageEncoding="UTF-8"%>
+<%@ page import="edu.uclm.esi.common.server.domain.Anuncio, java.sql.SQLException" %>
 
 <%
-int idFoto=Integer.parseInt(request.getParameter("idFoto"));
+String sIdFoto=request.getParameter("idFoto");
+int idFoto=Integer.parseInt(sIdFoto);
 Anuncio anuncio=(Anuncio) request.getSession().getAttribute("anuncio");
-PrintWriter out = response.getWriter();
+
 try {
-	InputStream x=anuncio.getContenido(idFoto);
-	int length=x.available();
-	byte[] b=new byte[length];
-	x.read(b);
-	String imageDataString=Base64.encodeBase64URLSafeString(b);
-	response.addHeader("Content-Type", anuncio.getContentType(idFoto));
-	out.print(imageDataString);
-	System.put.println(imageDataString);
+	String contenido=anuncio.getContenido(idFoto);
+	response.getWriter().print(imageDataString);
 }
 catch (SQLException e) {
-	out.print("Error");
+	response.getWriter().print("Error");
 }
 		
 %>

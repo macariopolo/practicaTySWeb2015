@@ -119,6 +119,7 @@ function logout() {
 			} 
 			sessionStorage.clear();
 			$("#cabeceraRegistro").load("FormDatosPersonales.html");
+			$("#zonaPrincipal").load("ZonaPrincipalVacia.html");
 		}
 	};
 	var pars="command=" + JSON.stringify(comando);

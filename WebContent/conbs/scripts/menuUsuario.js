@@ -98,9 +98,10 @@ function cargarZonaDeFotos() {
 
 function crearTabla(idsFotos) {
 	var tabla=document.createElement("table");
+	tabla.setAttribute("class", "table");
 	var cont=0;
 	var columnas=3;
-	var filas=Math.round(idsFotos.length/columnas);
+	var filas=Math.max(1, Math.round(idsFotos.length/columnas));
 	for (var iFila=0; iFila<filas; iFila++) {
 		var row=document.createElement("tr");
 		for (var iCol=0; iCol<=columnas; iCol++) {
@@ -118,25 +119,16 @@ function crearTabla(idsFotos) {
 
 function cargarFoto(idFoto, celda) {
 	var request=new XMLHttpRequest();
-	request.open("get", "../jsp/getFoto.jsp");
+	request.open("post", "../jsp/getFoto.jsp");
 	request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-	request.responseType="arraybuffer";
 	request.onreadystatechange = function() {
 		if (request.readyState==4) {
 			if (request.status==200) {
 				var nodoImg=document.createElement("img");
-				var blob=new Blob([request.response], {type:"image/jpeg"});
-				alert("blob: " + blob);
-				var reader=new FileReader();
-				reader.readAsBinaryString(blob);
-				alert("blob: " + blob);
-				var contenido=reader.result;
-				alert("contenido: " + contenido);
-				var losBytes=btoa(contenido);
-				alert("losBytes: " + losBytes);
-				nodoImg.setAttribute("src", "data:image/jpeg;base64," + losBytes);
-				nodoImg.setAttribute("width", "50");
-				nodoImg.setAttribute("height", "50");
+				nodoImg.setAttribute("src", "data:image/jpeg;base64," + request.responseText);
+				nodoImg.setAttribute("width", "100");
+				nodoImg.setAttribute("height", "100");
+				nodoImg.setAttribute("class", "img-thumbnail");
 				celda.appendChild(nodoImg);
 			} else {
 				alert("Error en cargarFoto: " + request.responseText);

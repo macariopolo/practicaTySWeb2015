@@ -63,16 +63,6 @@
 			<result name="input" type="json"/>
 			<result name="error" type="json"/>
 		</action>
-		
-		<action name="GetFoto" class="edu.uclm.esi.tysweb2015.acciones.GetFoto">
-			<result name="success" type="stream">
-			  <param name="contentType">${contentType}</param>
-			  <param name="inputName">contenido</param>
-			  <param name="bufferSize">1024</param>
-			</result>
-			<result name="input" type="json"/>
-			<result name="error" type="json"/>
-		</action>
 	</package>
 </struts>
 
