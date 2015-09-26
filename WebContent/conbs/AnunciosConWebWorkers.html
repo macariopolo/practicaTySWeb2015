@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<script>
+		var ww=new Array();
+		for (var i=0; i<10; i++) {
+			ww[i]=new Worker("scripts/webworkerAnuncio.js");
+			ww[i].onmessage = function(e) {
+				var info=e.data;
+				document.write("<p>" + i +") idAnuncio= " + info.idAnuncio + ", Descripción: " + info.descripcion + ", Anunciante: " + info.emailUsuario + "</p>");
+			}
+		}
+	</script>
+</body>
+</html>
