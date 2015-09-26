@@ -135,13 +135,19 @@ public class DAOAnuncio {
 	}
 
 	public static void select(int idAnuncio, Anuncio anuncio) throws SQLException {
-		String sql="Select Anuncios.id, Anuncios.fechaDeAlta, descripcion, Categorias.nombre, Usuarios.email " + 
-			"from Anuncios inner join Categorias on Anuncios.idCategoria=Categorias.id " + 
-			"inner join Usuarios on Anuncios.idAnunciante=Usuarios.id where Anuncios.id=?";
+		String sql="Select Anuncios.id, Anuncios.fechaDeAlta, descripcion, Categorias.id, Categorias.nombre, Usuarios.id, Usuarios.email " + 
+				"from Anuncios inner join Categorias on Anuncios.idCategoria=Categorias.id " + 
+				"inner join Usuarios on Anuncios.idAnunciante=Usuarios.id where Anuncios.id=?";
 		Connection bd=Broker.get().getDBSelector();
 		PreparedStatement ps=bd.prepareStatement(sql);
+		ps.setInt(1,  idAnuncio);
 		ResultSet r=ps.executeQuery();
-		//r.relative(idAnuncio);
+		r.next();
+		anuncio.setIdAnuncio(r.getInt(1));
+		anuncio.setDescripcion(r.getString(3));
+		anuncio.setIdCategoria(r.getInt(4));
+		anuncio.setNombreCategoria(r.getString(5));
+		anuncio.setEmailUsuario(r.getString(7));
 		bd.close();
 	}
 	
